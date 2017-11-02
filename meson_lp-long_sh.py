@@ -87,8 +87,23 @@ c1 = np.concatenate((np.zeros(N),np.ones(N)))
 
 bounds1 = (0,.05)
 bounds2 = (-.05,0)
+unbound  = (0,None)
 
-bounds1  = (-.05,.05)
+# rest should be unbounded
+bounds_array =[]
+for i in range(0,n1):
+    bounds_array.append(bounds1)
+
+for i in range(0,n2):
+    bounds_array.append(bounds2)
+
+for i in range(0,N):
+    bounds_array.append(unbound)
+
+
+import pdb; pdb.set_trace()
+bounds_array = tuple(bounds_array)
+print(bounds_array)
 
 
 # new constraints for Absolute value  - Check ?
@@ -206,7 +221,7 @@ import pdb; pdb.set_trace()
 
 import scipy
 
-res =scipy.optimize.linprog(c=c1, A_ub=A, b_ub=B, A_eq=None, b_eq=None, bounds=bounds1, method='simplex', callback=None, options={"disp": True})
+res =scipy.optimize.linprog(c=c1, A_ub=A, b_ub=B, A_eq=None, b_eq=None, bounds=bounds_array, method='simplex', callback=None, options={"disp": True})
 
 #import pdb; pdb.set_trace()
 
