@@ -101,7 +101,7 @@ for i in range(0,N):
     bounds_array.append(unbound)
 
 
-import pdb; pdb.set_trace()
+#import pdb; pdb.set_trace()
 bounds_array = tuple(bounds_array)
 print(bounds_array)
 
@@ -185,7 +185,7 @@ b41 = (1 + delta_bM)
 b42 = -(1 - delta_bM)
 
 #Shorts
-import pdb; pdb.set_trace()
+#import pdb; pdb.set_trace()
 betas = np.array(sorted75s['beta'])
 
 a43 = -np.concatenate((np.zeros(n2),betas,np.zeros(n1+n2)))[None,:]
@@ -223,11 +223,62 @@ import scipy
 
 res =scipy.optimize.linprog(c=c1, A_ub=A, b_ub=B, A_eq=None, b_eq=None, bounds=bounds_array, method='simplex', callback=None, options={"disp": True})
 
-#import pdb; pdb.set_trace()
 
-print(res.x)
 
 #************************************
-# Start the long-short LP
+# Printing
 #*********************
+import pdb; pdb.set_trace()
+
+print(res.x)
+print('parameters')
+print('Exposure bounds');
+print([-b32,b31],[-b33,b34]);
+print('Beta Bounds');
+print([-b42,b41],[-b43,b44]);
+print('Weights and Slck Variables')
+x0=res.x[0:N]
+print(x0)
+print[min(x0),max(x0),max(x0)/min(x0)]
+
+sl0  = res.x[N:]
+print(sl0)
+print[min(sl0),max(sl0),max(sl0)/min(sl0),sum(sl0)]
+
+import matplotlib.pyplot as plt
+plt.title('Weights and Slacks')
+plt.figure(1)
+plt.subplot(121)
+plt.title('Weights') # subplot 211 title
+plt.plot(x0,'bo')
+
+plt.subplot(122)
+plt.plot(sl0,'bo')
+plt.title('Slacks') # subplot 211 title
+
+# weights long and short
+x0l = x0[0:n1]
+x0s = x0[n1:N]
+
+p_exp = [np.sum(x0l),np.sum(x0s)]
+
+print('[Exposure L/S]')
+print(p_exp)
+
+p_beta = [np.dot(betal,x0l),np.dot(betas,x0s)]
+print('[Beta L/S]')
+print(p_beta)
+
+import pdb; pdb.set_trace()
+
+res= []
+res.append(x0l)
+res.append(x0s)
+
+df_res = pd.DataFrame(res)
+
+plt.show()
+from datetime import date
+td = date.today()
+df_res.to_csv("results_"+str(td)+".csv")
 
