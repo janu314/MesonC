@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+'''
+created by: Janu314@gmail.com
+Edited by: Janu314@gmail.com
+last edited: 20171104
+
+'''
 import pandas as pd
 import graphlab as gl
 import numpy as np
@@ -166,11 +172,13 @@ b314 = np.array([b31,b32,b33,b34])[:,None]
 #******************
 
 
-
 #  Beta Constraint  *********
-delta_bM  = 0.1
 
-delta_bS  =  0.6
+delta_cM   = 0.35  # center of Delta
+
+delta_bM  = 0.05
+
+delta_bS  =  0.05
 
 betal = np.array(sorted75l['beta'])
 
@@ -180,9 +188,9 @@ a41 = np.concatenate((betal,np.zeros(n2),np.zeros(n1+n2)))[None,:]
 a42 = -np.concatenate((betal,np.zeros(n2),np.zeros(n1+n2)))[None,:]
 
 
-b41 = (1 + delta_bM)
+b41 = (delta_cM + delta_bM)
 
-b42 = -(1 - delta_bM)
+b42 = -(delta_cM - delta_bM)
 
 #Shorts
 #import pdb; pdb.set_trace()
@@ -193,9 +201,9 @@ a43 = -np.concatenate((np.zeros(n2),betas,np.zeros(n1+n2)))[None,:]
 a44 = np.concatenate((np.zeros(n2),betas,np.zeros(n1+n2)))[None,:]
 
 
-b43 = (1 + delta_bS)
+b43 = (delta_cM + delta_bS)
 
-b44 = -(1 - delta_bS)
+b44 = -(delta_cM - delta_bS)
 
 b414 = np.array([b41,b42,b43,b44])[:,None]
 
@@ -230,7 +238,6 @@ res =scipy.optimize.linprog(c=c1, A_ub=A, b_ub=B, A_eq=None, b_eq=None, bounds=b
 #*********************
 import pdb; pdb.set_trace()
 
-print(res.x)
 print('parameters')
 print('Exposure bounds');
 print([-b32,b31],[-b33,b34]);
@@ -238,13 +245,16 @@ print('Beta Bounds');
 print([-b42,b41],[-b43,b44]);
 print('Weights and Slck Variables')
 x0=res.x[0:N]
+print('x0 and min max x0')
 print(x0)
 print[min(x0),max(x0),max(x0)/min(x0)]
 
 sl0  = res.x[N:]
+print('sl0 and min max sl0')
 print(sl0)
 print[min(sl0),max(sl0),max(sl0)/min(sl0),sum(sl0)]
 
+import pdb; pdb.set_trace()
 import matplotlib.pyplot as plt
 plt.title('Weights and Slacks')
 plt.figure(1)
