@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+'''
+created by: Janu314@gmail.com
+Edited by: Janu314@gmail.com
+last edited: 20171104
+
+'''
+
 import pandas as pd
 import graphlab as gl
 import numpy as np
