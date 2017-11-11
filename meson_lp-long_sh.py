@@ -174,11 +174,11 @@ b314 = np.array([b31,b32,b33,b34])[:,None]
 
 #  Beta Constraint  *********
 
-delta_cM   = 0.35  # center of Delta
+delta_cM   = 1.0  # center of Delta
 
-delta_bM  = 0.05
+delta_bM  = 0.1
 
-delta_bS  =  0.05
+delta_bS  =  0.6
 
 betal = np.array(sorted75l['beta'])
 
