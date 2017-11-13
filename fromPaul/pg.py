@@ -103,6 +103,18 @@ def dil(df_long):
         (df_long.weight_opt * df_long.beta_historical_12m).sum())
     )
 
+    import matplotlib.pyplot as plt
+    plt.title('Weights and Slacks')
+    plt.figure(1)
+    plt.subplot(121)
+    plt.title('Opt-Weights')  # subplot 211 title
+    plt.plot(res.x[:len(df_long)], 'bo')
+
+    plt.subplot(122)
+    plt.plot(res.x[len(df_long):], 'bo')
+    plt.title('Omegas')  # subplot 211 title
+    plt.show()
+
 
 def load():
     print('loading...')
