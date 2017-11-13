@@ -32,13 +32,13 @@ def dil(df_long):
                 'beta_historical_12m'] = -0.5
 
     # exposure
-    delta_exp = 0.20
+    delta_exp = 0.2
     A_exp = np.vstack([np.ones(len(df_long)),
                       -1.0 * np.ones(len(df_long))])
     b_exp = np.asarray([1.0 + delta_exp, -1.0 + delta_exp])
 
     # beta
-    delta_beta = 0.10
+    delta_beta = 0.2
     betas = df_long.beta_historical_12m.values * np.ones(len(df_long))
     A_beta = np.vstack([betas, -1.0 * betas])
     b_beta = np.asarray([1.0 + delta_beta, -1.0 + delta_beta])
@@ -79,7 +79,7 @@ def dil(df_long):
     import pdb;
     pdb.set_trace()
     # restated objective function
-    c = np.hstack([np.zeros(len(df_long)), np.zeros(len(df_long))])
+    c = np.hstack([np.zeros(len(df_long)), np.ones(len(df_long))])
     bounds = np.vstack([bounds_w, bounds_z])
     res = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds)
     if not res.success:
